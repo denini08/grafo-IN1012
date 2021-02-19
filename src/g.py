@@ -21,8 +21,11 @@ grafo2 = [[0, 1, 0, 1, 0],
           [1, 1, 0, 0, 0],
           [0, 1, 1, 0, 0]]
 
-grafo2 = [[0] * 4039] * 4039
-
+grafo2 = []
+for a in range(4039):
+    grafo2.append([])
+    for b in range(4039):
+        grafo2[a].append(0)
 
 with open('facebook_combined.txt', 'r') as f:
     lines = f.readlines()
@@ -31,12 +34,29 @@ with open('facebook_combined.txt', 'r') as f:
         a = int(aux[0])
         b = int(aux[1])
         grafo2[a][b] = 1
+        grafo2[b][a] = 1
+
 
 del lines
 
-grafo3 = [[0] * 4039] * 4039
+grafo3 = []
+for a in range(4039):
+    grafo3.append([])
+    for b in range(4039):
+        grafo3[a].append(0)
+
+# debugger
+#grafo2 = grafo2[:30]
+# for l in range(len(grafo2)):
+#    grafo2[l] = grafo2[l][:30]
+
+with open('pontos.csv', 'w') as f:
+    writer = csv.writer(f)
+    writer.writerows(grafo2)
+
 for i in range(0, len(grafo2[0])):
     comum = 0
+    print(i)
     for c in range(0, len(grafo2)):
         if grafo2[i][c] > 0:
             for z in range(0, len(grafo2[c])):
@@ -46,6 +66,6 @@ for i in range(0, len(grafo2[0])):
             #print("{} é amigo de {}. Eles tem {} amigos em comum".format(i, c, comum))
             grafo3[i][c] = comum
 
-with open('output.csv', 'w') as f:
+with open('pesos.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(grafo3)
