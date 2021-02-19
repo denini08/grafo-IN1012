@@ -1,19 +1,13 @@
-# for i in range(len(grafo)):
-#   print(f'{i}:')
-#   for j in grafo[i]:
-#     comum = grafo[j] & grafo[i] #interseção
-#     l = len(comum)
-#     print(f' é amigo de: {j}, quantidade de amigos em comum: {l}.', end='')
-#     print(f' Amigos em comum: {comum}' if l>0 else '\n' )
-
 import csv
-grafo = [
-    {1, 3},  # 0
-    {0, 3, 4},  # 1
-    {4},  # 2
-    {0, 1},  # 3
-    {1, 2}  # 4
-]
+
+
+def ver_amigos(n):
+    amigos_n = set()
+    for i in range(len(grafo2[n])):
+        if grafo2[n][i] > 0:
+            amigos_n.add(i)
+    return amigos_n
+
 
 grafo2 = [[0, 1, 0, 1, 0],
           [1, 0, 0, 1, 1],
@@ -54,17 +48,15 @@ with open('pontos.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(grafo2)
 
-for i in range(0, len(grafo2[0])):
-    comum = 0
+for i in range(len(grafo2)):
     print(i)
-    for c in range(0, len(grafo2)):
-        if grafo2[i][c] > 0:
-            for z in range(0, len(grafo2[c])):
-                if grafo2[i][z] > 0 and grafo2[c][z] > 0:
-                    comum += 1
+    for j in range(len(grafo2[i])):
+        if grafo2[i][j] > 0:
+            amigos_i = ver_amigos(i)
+            amigos_j = ver_amigos(j)
+            comum = len(amigos_i & amigos_j)  # interceção
+            grafo3[i][j] = comum
 
-            #print("{} é amigo de {}. Eles tem {} amigos em comum".format(i, c, comum))
-            grafo3[i][c] = comum
 
 with open('pesos.csv', 'w') as f:
     writer = csv.writer(f)
