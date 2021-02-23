@@ -9,6 +9,7 @@ Projeto da disciplina de algoritmos II (3a Atividade Teórica)
 ## Execução
 
 Antes de executar baixe o [arquivo da matrix](https://drive.google.com/file/d/1p5Y2Ep0dZ6kQiZ2ROq9exn0mPbpbSXFa/view?usp=sharing) e o coloque em `/src`
+
 Para executar o algoritmo, use:
 ```
 python3 dijkstra.py "CITY1" "CITY2"
