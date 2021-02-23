@@ -88,7 +88,7 @@ def main(city1, city2):
         path.append(antecessor)
 
     print('A menor distância entre a cidade {} e a cidade {} é de {} milhas'.format(
-        city1, city2, pesos[pos2]))
+        city1, city2, pesos[int(pos2)]))
     print('\n')
     print('E as cidades que formam esse caminho, são: ')
     print('\n')
