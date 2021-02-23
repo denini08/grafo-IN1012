@@ -58,7 +58,7 @@ def main(city1, city2):
         #         pos2 = r['posicao']
         #     if pos1 != '' and pos2 != '':
         #         break
-               
+
         for r in reader:
             names[r['posicao']] = r['nome']
 
@@ -71,14 +71,14 @@ def main(city1, city2):
                 break
 
     print(f'posicao cidade1: {pos1}\nposicao cidade2: {pos2}')
-    
+
     print("Começou a ler matriz!!! ", datetime.datetime.now())
 
     grafo = pd.read_csv('pesos_100miles.csv', sep=',',
                         header=None).iloc[:, :].values
     print("Terminou leitura de matriz!!! ", datetime.datetime.now())
-    
-    antecessores, pesos = dijkstra(grafo, pos1)
+
+    antecessores, pesos = dijkstra(grafo, int(pos1))
     antecessor = pos2
     path = []
     path.append(antecessor)
@@ -86,17 +86,15 @@ def main(city1, city2):
     while antecessor >= 0:
         antecessor = antecessores[antecessor]
         path.append(antecessor)
-    
-    print('A menor distância entre a cidade {} e a cidade {} é de {} milhas'.format(city1, city2, pesos[pos2]))
+
+    print('A menor distância entre a cidade {} e a cidade {} é de {} milhas'.format(
+        city1, city2, pesos[pos2]))
     print('\n')
     print('E as cidades que formam esse caminho, são: ')
     print('\n')
 
     for i in range(path):
         print(names[str(i)])
-                
-        
-
 
     exit(0)
     # names = ['s', 't', 'y', 'x', 'z']
