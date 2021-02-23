@@ -71,7 +71,7 @@ def main(city1, city2):
                 break
 
     print(
-        f'posicao na matrix da cidade1: {pos1}\nposicao na matrix da cidade2: {pos2}')
+        f'posicao na matrix de "{city1}": {pos1}\nposicao na matrix da "{city2}": {pos2}')
 
     print("Começou a ler matriz!!! ", datetime.datetime.now())
 
@@ -95,7 +95,7 @@ def main(city1, city2):
     print('\n')
 
     for i in range(len(path)):
-        print(names[str(i)])
+        print(names[str(path[i])])
 
     exit(0)
     # names = ['s', 't', 'y', 'x', 'z']
@@ -108,7 +108,7 @@ if __name__ == "__main__":
     if len(argv) == 3:
         city1 = argv[1]
         city2 = argv[2]
-        print(f'indo de: "{city1}"\n para: "{city2}"')
+        print(f'indo de: "{city1}"\npara: "{city2}"')
         main(city1, city2)
     else:
         print('"Error, use\npython3 dijkstra.py "CITY1" "CITY2"')
