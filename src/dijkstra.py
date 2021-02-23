@@ -78,8 +78,11 @@ def main(city1, city2):
     grafo = pd.read_csv('pesos_100miles.csv', sep=',',
                         header=None).iloc[:, :].values
     print("Terminou leitura de matriz!!! ", datetime.datetime.now())
+    print("Startou algoritmo!!! ", datetime.datetime.now())
 
     antecessores, pesos = dijkstra(grafo, int(pos1))
+    print("Terminou algoritmo!!! ", datetime.datetime.now())
+
     antecessor = int(pos2)
     path = []
     path.append(antecessor)
@@ -94,7 +97,7 @@ def main(city1, city2):
     print('E as cidades que formam esse caminho, são: ')
     print('\n')
 
-    for i in range(len(path)):
+    for i in range(len(path) - 1):
         print(names[str(path[i])])
 
     exit(0)
