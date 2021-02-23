@@ -9,10 +9,10 @@ with open('sf12010placedistance100miles.csv', 'r') as f:
     for n, l in enumerate(lines):
         if n == 0:
             continue
-        l = l.replace('"', '')
+        l = l.replace('"', '').replace('\n', '')
         aux = l.split(',')
         a = aux[1]
-        b = aux[3]
+        b = aux[4]
         dis = float(aux[2])
         dic = {'a': a, 'b': b, 'dis': dis}
         com.append(dic)
