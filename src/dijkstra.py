@@ -1,6 +1,8 @@
+from os import name
 import pandas as pd
 import sys
 import csv
+import datetime
 from sys import argv
 
 
@@ -39,31 +41,63 @@ def dijkstra(grafo, origem):
                 p[n] = p[v] + grafo[v][n]
                 antecessores[n] = v
 
-    return antecessores
+    return antecessores, p
 
 
 def main(city1, city2):
     # inializando o dict das cidades
     pos1 = ''
     pos2 = ''
+    names = {}
     with open("dict_n.csv", "r") as f:
         reader = csv.DictReader(f)
+        # for r in reader:
+        #     if r['nome'] == city1:
+        #         pos1 = r['posicao']
+        #     if r['nome'] == city2:
+        #         pos2 = r['posicao']
+        #     if pos1 != '' and pos2 != '':
+        #         break
+               
         for r in reader:
-            if r['nome'] == city1:
-                pos1 = r['posicao']
-            if r['nome'] == city2:
-                pos2 = r['posicao']
+            names[r['posicao']] = r['nome']
+
+        for k in names.keys():
+            if names[k] == city1:
+                pos1 = k
+            if names[k] == city2:
+                pos2 = k
             if pos1 != '' and pos2 != '':
                 break
+
     print(f'posicao cidade1: {pos1}\nposicao cidade2: {pos2}')
-    print('a')
+    
+    print("Começou a ler matriz!!! ", datetime.datetime.now())
 
     grafo = pd.read_csv('pesos_100miles.csv', sep=',',
                         header=None).iloc[:, :].values
-    print('b')
+    print("Terminou leitura de matriz!!! ", datetime.datetime.now())
+    
+    antecessores, pesos = dijkstra(grafo, pos1)
+    antecessor = pos2
+    path = []
+    path.append(antecessor)
 
-    caminhos = dijkstra(grafo, 0)
-    print(caminhos[0])
+    while antecessor >= 0:
+        antecessor = antecessores[antecessor]
+        path.append(antecessor)
+    
+    print('A menor distância entre a cidade {} e a cidade {} é de {} milhas'.format(city1, city2, pesos[pos2]))
+    print('\n')
+    print('E as cidades que formam esse caminho, são: ')
+    print('\n')
+
+    for i in range(path):
+        print(names[str(i)])
+                
+        
+
+
     exit(0)
     # names = ['s', 't', 'y', 'x', 'z']
     # for i in range(len(caminhos)):
