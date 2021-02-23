@@ -79,12 +79,12 @@ def main(city1, city2):
     print("Terminou leitura de matriz!!! ", datetime.datetime.now())
 
     antecessores, pesos = dijkstra(grafo, int(pos1))
-    antecessor = pos2
+    antecessor = int(pos2)
     path = []
     path.append(antecessor)
 
     while antecessor >= 0:
-        antecessor = antecessores[antecessor]
+        antecessor = int(antecessores[antecessor])
         path.append(antecessor)
 
     print('A menor distância entre a cidade {} e a cidade {} é de {} milhas'.format(
