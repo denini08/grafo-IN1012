@@ -6,13 +6,6 @@ import datetime
 from sys import argv
 
 
-# grafo = [[0, 10, 5, 0, 0],
-#          [0, 0, 2, 1, 0],
-#          [0, 3, 0, 9, 2],
-#          [0, 0, 0, 0, 4],
-#          [7, 0, 0, 6, 0]]
-
-
 def min_path(p, visitados):
     min = sys.maxsize
 
@@ -51,14 +44,6 @@ def main(city1, city2):
     names = {}
     with open("dict_n.csv", "r") as f:
         reader = csv.DictReader(f)
-        # for r in reader:
-        #     if r['nome'] == city1:
-        #         pos1 = r['posicao']
-        #     if r['nome'] == city2:
-        #         pos2 = r['posicao']
-        #     if pos1 != '' and pos2 != '':
-        #         break
-
         for r in reader:
             names[r['posicao']] = r['nome']
 
@@ -73,15 +58,15 @@ def main(city1, city2):
     print(
         f'posicao na matrix de "{city1}": {pos1}\nposicao na matrix da "{city2}": {pos2}')
 
-    print("Começou a ler matriz!!! ", datetime.datetime.now())
+    print("Começou a ler matriz!!! ")
 
     grafo = pd.read_csv('pesos_100miles.csv', sep=',',
                         header=None).iloc[:, :].values
-    print("Terminou leitura de matriz!!! ", datetime.datetime.now())
-    print("Startou algoritmo!!! ", datetime.datetime.now())
+    print("Terminou leitura de matriz!!! ")
+    print("Startou algoritmo!!! ")
 
     antecessores, pesos = dijkstra(grafo, int(pos1))
-    print("Terminou algoritmo!!! ", datetime.datetime.now())
+    print("Terminou algoritmo!!! ")
 
     antecessor = int(pos2)
     path = []
@@ -111,6 +96,7 @@ if __name__ == "__main__":
     if len(argv) == 3:
         city1 = argv[1]
         city2 = argv[2]
+        print("###Atenção, este algoritmo demora cerca de 15 minutos para rodar em um computador potente.###")
         print(f'indo de: "{city1}"\npara: "{city2}"')
         main(city1, city2)
     else:
