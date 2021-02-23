@@ -1,63 +1,75 @@
+# este codigo demora cerca de 45 minutos para executar
 import csv
+import codecs
 
-
-def ver_amigos(n):
-    amigos_n = set()
-    for i in range(len(grafo2[n])):
-        if grafo2[n][i] > 0:
-            amigos_n.add(i)
-    return amigos_n
-
-
-grafo2 = [[0, 1, 0, 1, 0],
-          [1, 0, 0, 1, 1],
-          [0, 0, 0, 0, 1],
-          [1, 1, 0, 0, 0],
-          [0, 1, 1, 0, 0]]
-
-grafo2 = []
-for a in range(4039):
-    grafo2.append([])
-    for b in range(4039):
-        grafo2[a].append(0)
-
-with open('facebook_combined.txt', 'r') as f:
+com = []
+# lendo o BD e salvando em um dict
+with open('sf12010placedistance100miles.csv', 'r') as f:
     lines = f.readlines()
-    for l in lines:
-        aux = l.split(' ')
-        a = int(aux[0])
-        b = int(aux[1])
-        grafo2[a][b] = 1
-        grafo2[b][a] = 1
+    for n, l in enumerate(lines):
+        if n == 0:
+            continue
+        l = l.replace('"', '')
+        aux = l.split(',')
+        a = aux[1]
+        b = aux[3]
+        dis = float(aux[2])
+        dic = {'a': a, 'b': b, 'dis': dis}
+        com.append(dic)
 
 
 del lines
+del f
 
-grafo3 = []
-for a in range(4039):
-    grafo3.append([])
-    for b in range(4039):
-        grafo3[a].append(0)
+# criando as posicoes na matrix para cada cidade
+count_cidades = -1
+dic_cidades = {}
+for n, c in enumerate(com):
+    if c['a'] not in dic_cidades:
+        count_cidades += 1
+        dic_cidades[c['a']] = count_cidades
+    if c['b'] not in dic_cidades:
+        count_cidades += 1
+        dic_cidades[c['b']] = count_cidades
 
-# debugger
-#grafo2 = grafo2[:30]
-# for l in range(len(grafo2)):
-#    grafo2[l] = grafo2[l][:30]
 
-with open('pontos.csv', 'w') as f:
+# salvando um csv onde cada linha contem o id do banco, posicao na matrix e nome da cidade
+reader = csv.DictReader(codecs.open('sf12010placename.csv', 'r',  encoding='utf-8',
+                                    errors='ignore'))
+impresso = set()
+with open('dict_n.csv', 'w') as csv_file:
+    writer = csv.writer(csv_file)
+    writer.writerow(['id', 'posicao', 'nome'])
+    for nomes in reader:
+        for k in dic_cidades.keys():
+            nome = nomes['place']
+            if k == nome and k not in impresso:
+                impresso.add(k)
+                writer.writerow([k, dic_cidades[k], nomes['placename']])
+
+del impresso
+del reader
+
+# criando a matrix
+print('tamanho %d' % (len(dic_cidades)))
+# exit(0)
+
+grafo2 = []
+for a in range(len(dic_cidades)):
+    grafo2.append([])
+    for b in range(len(dic_cidades)):
+        grafo2[a].append(0)
+
+# preenchendo a matrix
+
+for c in com:
+    posicao_a = dic_cidades[c['a']]
+    posicao_b = dic_cidades[c['b']]
+    grafo2[posicao_a][posicao_b] = c['dis']
+    grafo2[posicao_b][posicao_a] = c['dis']
+
+
+# salvando a matrix
+with open('pesos_100miles.csv', 'w') as f:
     writer = csv.writer(f)
     writer.writerows(grafo2)
-
-for i in range(len(grafo2)):
-    print(i)
-    for j in range(len(grafo2[i])):
-        if grafo2[i][j] > 0:
-            amigos_i = ver_amigos(i)
-            amigos_j = ver_amigos(j)
-            comum = len(amigos_i & amigos_j)  # interceção
-            grafo3[i][j] = comum
-
-
-with open('pesos.csv', 'w') as f:
-    writer = csv.writer(f)
-    writer.writerows(grafo3)
