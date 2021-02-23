@@ -1,16 +1,14 @@
-# import pandas as pd
-# arr = pd.read_csv('pesos.csv', sep=',').iloc[:, :].values
-
+import pandas as pd
 import sys
 import csv
 from sys import argv
 
 
-grafo = [[0, 10, 5, 0, 0],
-         [0, 0, 2, 1, 0],
-         [0, 3, 0, 9, 2],
-         [0, 0, 0, 0, 4],
-         [7, 0, 0, 6, 0]]
+# grafo = [[0, 10, 5, 0, 0],
+#          [0, 0, 2, 1, 0],
+#          [0, 3, 0, 9, 2],
+#          [0, 0, 0, 0, 4],
+#          [7, 0, 0, 6, 0]]
 
 
 def min_path(p, visitados):
@@ -44,12 +42,6 @@ def dijkstra(grafo, origem):
     return antecessores
 
 
-caminhos = dijkstra(grafo, 0)
-names = ['s', 't', 'y', 'x', 'z']
-for i in range(len(caminhos)):
-    print('A({}) = {}'.format(names[i], names[i]))
-
-
 def main(city1, city2):
     # inializando o dict das cidades
     pos1 = ''
@@ -64,6 +56,18 @@ def main(city1, city2):
             if pos1 != '' and pos2 != '':
                 break
     print(f'posicao cidade1: {pos1}\nposicao cidade2: {pos2}')
+    print('a')
+
+    grafo = pd.read_csv('pesos_100miles.csv', sep=',',
+                        header=None).iloc[:, :].values
+    print('b')
+
+    caminhos = dijkstra(grafo, 0)
+    print(caminhos[0])
+    exit(0)
+    # names = ['s', 't', 'y', 'x', 'z']
+    # for i in range(len(caminhos)):
+    #     print('A({}) = {}'.format(names[i], names[i]))
 
 
 if __name__ == "__main__":
